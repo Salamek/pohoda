@@ -1,0 +1,120 @@
+import re
+from importlib import import_module
+
+from lxml import etree
+
+from pohoda.entity.Agenda import Agenda
+
+
+class Pohoda:
+    encoding = 'windows-1250'
+    _ico = None
+    _application = 'Python Pohoda connector'
+    _isInMemory = False
+
+    _xml_root = None
+    _filename = None
+    _xmlReader = None
+
+    def __init__(self, ico: str = None):
+        self._ico = ico
+
+    def set_application_name(self, name: str = None):
+        """
+        Set the name of the application.
+        :param name:
+        :return:
+        """
+        self._application = name
+
+    def create(self, name: str, data: dict = None) -> Agenda:
+        """
+        Create and return instance of requested agenda.
+        :param name:
+        :param data:
+        :return: Agenda
+        """
+        if data is None:
+            data = {}
+
+        try:
+            entity = getattr(import_module('pohoda.entity.{}'.format(name)), name)
+            if not issubclass(entity, Agenda):
+                raise ValueError('Not allowed entity: {}'.format(name))
+            return entity(data, self._ico)
+        except ImportError:
+            raise ValueError('Entity {} not found'.format(name))
+
+    def open(self, filename: str = None, id: str = None, note: str = None):
+        """
+        Open new XML file for writing.
+        :param filename: path to output file or null for memory
+        :param id:
+        :param note:
+        :return:
+        """
+        self._filename = filename
+        # Register namespaces
+        for namespace_key, namespace_value in Agenda.namespaces.items():
+            etree.register_namespace(namespace_key, namespace_value)
+
+        self._xml_root = etree.Element(Agenda.with_xml_namespace('dat', 'dataPack'))
+        self._xml_root.set('ico', self._ico)
+        self._xml_root.set('application', self._application)
+        self._xml_root.set('version', '2.0')
+
+        if note:
+            self._xml_root.set('note', note)
+
+        if id:
+            self._xml_root.set('id', id)
+
+    def add_item(self, id_: str = None, agenda: Agenda = None):
+        """
+        Add item.
+        :param id_:
+        :param agenda:
+        :return:
+        """
+        data_pack_item = etree.SubElement(self._xml_root, Agenda.with_xml_namespace('dat', 'dataPackItem'))
+        data_pack_item.set('id', id_)
+        data_pack_item.set('version', '2.0')
+        data_pack_item.append(agenda.get_xml())
+
+    def close(self) -> int:
+        """
+        End and close XML file.
+        :return: int written bytes for file or XML string for memory
+        """
+
+        tree = etree.ElementTree(self._xml_root)
+
+        return tree.write(self._filename, xml_declaration=True, encoding=self.encoding, method='xml', pretty_print=True)
+
+    def load(self, name: str, filename: str):
+        raise NotImplementedError
+
+    def next(self):
+        raise NotImplementedError
+
+    def __getattr__(self, name: str):
+        """
+        Handle dynamic method calls.
+        :param name:
+        :return:
+        """
+
+        def _getattr_resolver(*args):
+            match_create = re.match(r'^create_([a-zA-Z0-9]*)$', name)
+            if match_create:
+                return getattr(self, 'create')(match_create.group(1).capitalize(), args[0])
+
+            match_load = re.match(r'^load_([a-zA-Z0-9]*)$', name)
+            if match_load:
+                if not args[0]:
+                    raise ValueError('Filename is not set')
+                return getattr(self, 'create')(match_create.group(1).capitalize(), args[0])
+
+            raise ValueError('Unknown method: {}'.format(name))
+
+        return _getattr_resolver

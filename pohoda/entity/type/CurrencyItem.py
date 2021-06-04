@@ -1,0 +1,20 @@
+# coding: utf-8
+
+from pohoda.entity.Agenda import Agenda
+from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
+from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
+
+
+class CurrencyItem(Agenda, SetNamespaceTrait, SetNodeNameTrait):
+    _elements = ['unitPrice', 'price', 'priceVAT', 'priceSum']
+
+    def get_xml(self):
+        if not self._namespace:
+            raise ValueError('Namespace not set.')
+
+        if not self._node_name:
+            raise ValueError('Node name not set.')
+
+        xml = self._create_xml_tag(self._node_name, namespace=self._namespace)
+        self._add_elements(xml, self._elements, 'typ')
+        return xml
