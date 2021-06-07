@@ -1,11 +1,17 @@
 # coding: utf-8
 
+from typing import Optional
 from pohoda.entity.type.ActionType import ActionType
+from pohoda.entity.common.Trait import Trait
 
 
-class AddActionTypeTrait:
+class AddActionTypeTrait(Trait):
 
-    def add_action_type(self, type_: str = None, filter_: str = None, agenda: str = None):
+    def add_action_type(self,
+                        type_: Optional[str] = None,
+                        filter_: Optional[str] = None,
+                        agenda: Optional[str] = None
+                        ) -> 'AddActionTypeTrait':
         """
         Add action type.
         :param type_:

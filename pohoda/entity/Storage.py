@@ -1,12 +1,12 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 
 
 class Storage(Agenda):
     import_root = 'lst:itemStorage'
 
-    def add_substorage(self, storage: 'Storage'):
+    def add_substorage(self, storage: 'Storage') -> None:
         """
         Add substorage.
         :param storage:
@@ -18,13 +18,13 @@ class Storage(Agenda):
 
         self._data['subStorages'].append(storage)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('storage', namespace='str')
         xml.set('version', '2.0')
         self.storage_xml(xml)
         return xml
 
-    def storage_xml(self, xml):
+    def storage_xml(self, xml: etree.Element) -> None:
         """
         Attach storage to XML element.
         :param xml:

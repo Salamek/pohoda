@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterToHeaderTrait import AddParameterToHeaderTrait
 from pohoda.entity.int_doc.Header import Header
@@ -16,7 +16,7 @@ class IntDoc(Agenda, AddParameterToHeaderTrait):
         }
         super().__init__(data, ico)
 
-    def add_item(self, data: dict):
+    def add_item(self, data: dict) -> 'IntDoc':
         """
         Add intDoc item.
         :param data:
@@ -29,7 +29,7 @@ class IntDoc(Agenda, AddParameterToHeaderTrait):
         self._data['intDocDetail'].append(Item(data, self._ico))
         return self
 
-    def add_summary(self, data: dict):
+    def add_summary(self, data: dict) -> 'IntDoc':
         """
         Add intDoc summary.
         :param data:
@@ -39,7 +39,7 @@ class IntDoc(Agenda, AddParameterToHeaderTrait):
         self._data['summary'] = Summary(data, self._ico)
         return self
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('intDoc', namespace='int')
         xml.set('version', '2.0')
         self._add_elements(xml, ['header', 'intDocDetail', 'summary'], 'int')

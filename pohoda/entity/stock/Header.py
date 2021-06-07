@@ -1,5 +1,6 @@
 # coding: utf-8
-
+from typing import Optional
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.stock.Category import Category
@@ -19,7 +20,12 @@ class Header(Agenda, AddParameterTrait):
                  'description', 'description2', 'note']
     _images_counter = 0
 
-    def add_image(self, filepath: str, description: str = None, order: int = None, default: bool = False):
+    def add_image(self,
+                  filepath: str,
+                  description: Optional[str] = None,
+                  order: Optional[int] = None,
+                  default: bool = False
+                  ) -> None:
         """
         Add image.
         :param filepath:
@@ -45,7 +51,7 @@ class Header(Agenda, AddParameterTrait):
             self._ico
         ))
 
-    def add_category(self, category_id: int = None):
+    def add_category(self, category_id: int) -> None:
         """
         Add category.
         :param category_id:
@@ -61,7 +67,7 @@ class Header(Agenda, AddParameterTrait):
             self._ico
         ))
 
-    def add_int_parameter(self, data: dict):
+    def add_int_parameter(self, data: dict) -> None:
         """
         Add int parameter.
         :param data:
@@ -73,7 +79,7 @@ class Header(Agenda, AddParameterTrait):
 
         self._data['intParameters'].append(IntParameter(data, self._ico))
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('stockHeader', namespace='stk')
         self._add_elements(xml, self._elements + ['categories', 'pictures', 'parameters', 'intParameters'], 'stk')
         return xml

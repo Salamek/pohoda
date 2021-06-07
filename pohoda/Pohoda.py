@@ -1,4 +1,5 @@
 import re
+from typing import Any, Optional
 from importlib import import_module
 
 from lxml import etree
@@ -10,16 +11,14 @@ class Pohoda:
     encoding = 'windows-1250'
     _ico = None
     _application = 'Python Pohoda connector'
-    _isInMemory = False
 
     _xml_root = None
     _filename = None
-    _xmlReader = None
 
-    def __init__(self, ico: str = None):
+    def __init__(self, ico: str):
         self._ico = ico
 
-    def set_application_name(self, name: str = None):
+    def set_application_name(self, name: str) -> None:
         """
         Set the name of the application.
         :param name:
@@ -27,7 +26,7 @@ class Pohoda:
         """
         self._application = name
 
-    def create(self, name: str, data: dict = None) -> Agenda:
+    def create(self, name: str, data: Optional[dict] = None) -> Agenda:
         """
         Create and return instance of requested agenda.
         :param name:
@@ -42,14 +41,14 @@ class Pohoda:
             if not issubclass(entity, Agenda):
                 raise ValueError('Not allowed entity: {}'.format(name))
             return entity(data, self._ico)
-        except ImportError:
-            raise ValueError('Entity {} not found'.format(name))
+        except ImportError as e:
+            raise ValueError('Entity {} not found'.format(name)) from e
 
-    def open(self, filename: str = None, id: str = None, note: str = None):
+    def open(self, filename: str, id_: Optional[str] = None, note: Optional[str] = None) -> None:
         """
         Open new XML file for writing.
         :param filename: path to output file or null for memory
-        :param id:
+        :param id_:
         :param note:
         :return:
         """
@@ -66,10 +65,10 @@ class Pohoda:
         if note:
             self._xml_root.set('note', note)
 
-        if id:
-            self._xml_root.set('id', id)
+        if id_:
+            self._xml_root.set('id', id_)
 
-    def add_item(self, id_: str = None, agenda: Agenda = None):
+    def add_item(self, id_: str, agenda: Agenda) -> None:
         """
         Add item.
         :param id_:
@@ -91,20 +90,20 @@ class Pohoda:
 
         return tree.write(self._filename, xml_declaration=True, encoding=self.encoding, method='xml', pretty_print=True)
 
-    def load(self, name: str, filename: str):
+    def load(self, name: str, filename: str) -> None:
         raise NotImplementedError
 
-    def next(self):
+    def next(self) -> None:
         raise NotImplementedError
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) -> Any:
         """
         Handle dynamic method calls.
         :param name:
         :return:
         """
 
-        def _getattr_resolver(*args):
+        def _getattr_resolver(*args: Any) -> Any:
             match_create = re.match(r'^create_([a-zA-Z0-9]*)$', name)
             if match_create:
                 return getattr(self, 'create')(match_create.group(1).capitalize(), args[0])
@@ -113,7 +112,7 @@ class Pohoda:
             if match_load:
                 if not args[0]:
                     raise ValueError('Filename is not set')
-                return getattr(self, 'create')(match_create.group(1).capitalize(), args[0])
+                return getattr(self, 'create')(match_load.group(1).capitalize(), args[0])
 
             raise ValueError('Unknown method: {}'.format(name))
 

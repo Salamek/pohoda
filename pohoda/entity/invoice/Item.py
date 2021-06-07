@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.type.CurrencyItem import CurrencyItem
@@ -32,7 +32,7 @@ class Item(Agenda, AddParameterTrait):
 
         super().__init__(data, ico)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('invoiceItem', namespace='inv')
         self._add_elements(xml, self._elements + ['parameters'], 'inv')
         return xml

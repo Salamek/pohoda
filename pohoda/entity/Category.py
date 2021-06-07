@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 
 
@@ -8,7 +8,7 @@ class Category(Agenda):
 
     _elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note']
 
-    def add_subcategory(self, category: 'Category'):
+    def add_subcategory(self, category: 'Category') -> None:
         """
         Add subcategory.
         :param category:
@@ -20,13 +20,13 @@ class Category(Agenda):
 
         self._data['subCategories'].append(category)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('categoryDetail', namespace='ctg')
         xml.set('version', '2.0')
         self.category_xml(xml)
         return xml
 
-    def category_xml(self, xml):
+    def category_xml(self, xml: etree.Element) -> None:
         """
         Attach category to XML element.
         :param xml:

@@ -1,13 +1,13 @@
 # coding: utf-8
 import html
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 
 
 class Parameter(Agenda):
     _namespace = None
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('parameter', namespace='typ')
         child = self._create_xml_tag('name', namespace='typ')
         child.text = self._data['name']

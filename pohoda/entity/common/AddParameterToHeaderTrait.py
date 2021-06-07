@@ -1,6 +1,14 @@
 # coding: utf-8
-class AddParameterToHeaderTrait:
-    def add_parameter(self, name: str, parameter_type: str, value, list_=None):
+from typing import Any
+from pohoda.entity.common.Trait import Trait
+
+
+class AddParameterToHeaderTrait(Trait):
+    def add_parameter(self,
+                      name: str,
+                      parameter_type: str,
+                      value: Any,
+                      list_: Any = None) -> 'AddParameterToHeaderTrait':
         """
         Set user-defined parameter.
         :param name: (can be set without preceding VPr / RefVPr)
@@ -10,5 +18,5 @@ class AddParameterToHeaderTrait:
         :return:
         """
 
-        self._data['header'].addparameter(name, parameter_type, value, list_)
+        self._data['header'].add_parameter(name, parameter_type, value, list_)
         return self

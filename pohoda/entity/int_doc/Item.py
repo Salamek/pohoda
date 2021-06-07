@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.type.CurrencyItem import CurrencyItem
 from pohoda.entity.type.StockItem import StockItem
@@ -30,7 +31,7 @@ class Item(Agenda):
 
         super().__init__(data, ico)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('intDocItem', namespace='int')
         self._add_elements(xml, self._elements + ['parameters'], 'int')
         return xml

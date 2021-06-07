@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.list_request.Filter import Filter
 from pohoda.entity.list_request.UserFilterName import UserFilterName
@@ -7,7 +7,7 @@ from pohoda.entity.list_request.UserFilterName import UserFilterName
 
 class ListRequest(Agenda):
 
-    def add_filter(self, data: dict):
+    def add_filter(self, data: dict) -> 'ListRequest':
         """
         Add filter.
         :param data:
@@ -17,7 +17,7 @@ class ListRequest(Agenda):
         self._data['filter'] = Filter(data, self._ico)
         return self
 
-    def add_user_filter_name(self, name: str):
+    def add_user_filter_name(self, name: str) -> 'ListRequest':
         """
         Add user filter name.
         :param name:
@@ -27,7 +27,7 @@ class ListRequest(Agenda):
         self._data['userFilterName'] = UserFilterName({'userFilterName': name}, self._ico)
         return self
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
 
         xml = self._create_xml_tag(
             'list{}Request'.format(self._data['type']),

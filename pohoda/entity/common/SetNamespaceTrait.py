@@ -1,7 +1,10 @@
 # coding: utf-8
 
-class SetNamespaceTrait:
+from pohoda.entity.common.Trait import Trait
+
+
+class SetNamespaceTrait(Trait):
     _namespace = None
 
-    def set_namespace(self, namespace: str):
+    def set_namespace(self, namespace: str) -> None:
         self._namespace = namespace

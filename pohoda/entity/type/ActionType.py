@@ -1,11 +1,11 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
 
 
 class ActionType(Agenda, SetNamespaceTrait):
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
 
         if not self._namespace:
             raise ValueError('Namespace not set.')

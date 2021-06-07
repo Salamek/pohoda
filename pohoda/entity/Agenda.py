@@ -1,6 +1,8 @@
 import html
-
+from typing import Dict, List, Union, Any, Optional
 from lxml import etree
+from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
+from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
 
 
 class Agenda:
@@ -27,16 +29,13 @@ class Agenda:
         'vyd': 'http://www.stormware.cz/schema/version_2/vydejka.xsd'
     }
 
-    _ico = None
+    _data = {}  # type: Dict[str, Any]
 
-    _data = {}
+    _ref_elements = []  # type: List[str]
 
-    _ref_elements = []
+    _elements_attributes_mapper = {}  # type: Dict[str, List[str]]
 
-    _elements_attributes_mapper = {}
-    _resolvers = []
-
-    def __init__(self, data: dict = None, ico: str = None):
+    def __init__(self, data: dict, ico: str):
         """
         Construct agenda using provided data.
         :param data:
@@ -46,14 +45,14 @@ class Agenda:
         self._ico = ico
         self._data = data
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         """
         Get XML.
         :return:
         """
-        pass
+        raise NotImplementedError
 
-    def _create_xml_tag(self, tag: str, namespace: str = None):
+    def _create_xml_tag(self, tag: str, namespace: Optional[str] = None) -> etree.Element:
         """
         Create XML.
         :return:
@@ -61,26 +60,14 @@ class Agenda:
 
         return etree.Element(self.with_xml_namespace(namespace, tag)) if namespace else etree.Element(tag)
 
-    def _resolve_namespace(self, short: str = None) -> str:
-        """
-        Get namespace.
-        :param short:
-        :return:
-        """
-
-        found_namespace = self.namespaces.get(short)
-        if not found_namespace:
-            ValueError('Unknown namespace key {}'.format(short))
-        return found_namespace
-
     @staticmethod
-    def with_xml_namespace(namespace_key: str, tag_name: str):
+    def with_xml_namespace(namespace_key: str, tag_name: str) -> str:
         found_namespace = Agenda.namespaces.get(namespace_key)
         if not found_namespace:
             ValueError('Unknown namespace key {}'.format(namespace_key))
         return '{{{}}}{}'.format(found_namespace, tag_name)
 
-    def _add_elements(self, xml, elements: list, namespace: str = None):
+    def _add_elements(self, xml: etree.Element, elements: List[str], namespace: Optional[str] = None) -> None:
         """
         Add batch elements.
         :param xml:
@@ -103,10 +90,10 @@ class Agenda:
                 attr_element, attr_name, attr_namespace = found_element_attributes_mapper
 
                 # get element
-                attr_element = xml.findall(
+                attr_element_found = xml.findall(
                     self.with_xml_namespace(namespace, attr_element) if namespace else attr_element)
-                if attr_element:
-                    attr_element.set(
+                if attr_element_found:
+                    attr_element_found.set(
                         self.with_xml_namespace(attr_namespace, attr_name) if attr_namespace else attr_name,
                         html.escape(found_element_in_data))
 
@@ -116,21 +103,21 @@ class Agenda:
             if isinstance(found_element_in_data, Agenda):
 
                 # set namespace
-                if namespace and hasattr(found_element_in_data, 'set_namespace'):
+                if namespace and isinstance(found_element_in_data, SetNamespaceTrait):
                     found_element_in_data.set_namespace(namespace)
 
                 # set node name
-                if hasattr(found_element_in_data, 'set_node_name'):
+                if isinstance(found_element_in_data, SetNodeNameTrait):
                     found_element_in_data.set_node_name(element)
 
-                self._append_node(xml, found_element_in_data.get_xml())
+                xml.append(found_element_in_data.get_xml())
                 continue
 
             # list of Agenda objects
             if isinstance(found_element_in_data, list):
                 child = etree.Element(self.with_xml_namespace(namespace, element) if namespace else element)
                 for node in found_element_in_data:
-                    self._append_node(child, node.get_xml())
+                    child.append(node.get_xml())
                 xml.append(child)
                 continue
 
@@ -140,7 +127,12 @@ class Agenda:
             child.text = html.escape(str(found_element_in_data))
             xml.append(child)
 
-    def _add_ref_element(self, xml, name: str, value, namespace: str = None):
+    def _add_ref_element(self,
+                         xml: etree.Element,
+                         name: str,
+                         value: Union[dict, str],
+                         namespace: Optional[str] = None
+                         ) -> etree.Element:
         """
         Add ref element.
         :param xml:
@@ -152,7 +144,7 @@ class Agenda:
 
         node = etree.Element(self.with_xml_namespace(namespace, name) if namespace else name)
 
-        if not isinstance(value, list):
+        if not isinstance(value, dict):
             value = {'ids': value}
 
         for k, v in value.items():
@@ -160,13 +152,5 @@ class Agenda:
             node_child.text = html.escape(str(v))
             node.append(node_child)
 
-        return node
-
-    def _append_node(self, xml, node):
-        """
-        Append node to another node.
-        :param xml:
-        :param node:
-        :return:
-        """
         xml.append(node)
+        return node

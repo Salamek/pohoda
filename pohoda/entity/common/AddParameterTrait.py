@@ -1,11 +1,12 @@
 # coding: utf-8
-
+from typing import Any
 from pohoda.entity.type.Parameter import Parameter
+from pohoda.entity.common.Trait import Trait
 
 
-class AddParameterTrait:
+class AddParameterTrait(Trait):
 
-    def add_parameter(self, name: str, parameter_type: str, value, list_=None):
+    def add_parameter(self, name: str, parameter_type: str, value: Any, list_: Any = None) -> 'AddParameterTrait':
         """
         Set user-defined parameter.
         :param name: (can be set without preceding VPr / RefVPr)

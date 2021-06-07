@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
 from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
@@ -9,7 +10,7 @@ class StockItem(Agenda, SetNamespaceTrait, SetNodeNameTrait):
     _ref_elements = ['store', 'stockItem']
     _elements = ['store', 'stockItem', 'serialNumber']
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
 
         if not self._namespace:
             raise ValueError('Namespace not set.')

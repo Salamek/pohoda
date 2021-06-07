@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterToHeaderTrait import AddParameterToHeaderTrait
 from pohoda.entity.receipt.Header import Header
@@ -13,7 +14,7 @@ class Receipt(Agenda, AddParameterToHeaderTrait):
         data = {'header': Header(data, ico)}
         super().__init__(data, ico)
 
-    def add_item(self, data: dict):
+    def add_item(self, data: dict) -> 'Receipt':
         """
         Add item.
         :param data:
@@ -26,7 +27,7 @@ class Receipt(Agenda, AddParameterToHeaderTrait):
         self._data['prijemkaDetail'].append(Item(data, self._ico))
         return self
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('prijemka', namespace='pri')
         xml.set('version', '2.0')
         self._add_elements(xml, ['header', 'prijemkaDetail', 'summary'], 'pri')

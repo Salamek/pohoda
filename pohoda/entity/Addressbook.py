@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.addressbook.Header import Header
 from pohoda.entity.common.AddActionTypeTrait import AddActionTypeTrait
@@ -16,7 +17,7 @@ class Addressbook(Agenda, AddActionTypeTrait, AddParameterToHeaderTrait):
             }
         super().__init__(data, ico)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('addressbook', namespace='adb')
         xml.set('version', '2.0')
         self._add_elements(xml, ['actionType', 'header'], 'adb')

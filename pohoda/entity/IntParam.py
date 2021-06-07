@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from lxml import etree
 from pohoda.entity.Agenda import Agenda
 from pohoda.entity.int_param.Settings import Settings
 
@@ -20,7 +20,7 @@ class IntParam(Agenda):
 
         super().__init__(data, ico)
 
-    def get_xml(self):
+    def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('intParamDetail', namespace='ipm')
         xml.set('version', '2.0')
         param = xml.addchild('ipm:intParam')
