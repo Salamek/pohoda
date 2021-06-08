@@ -1,0 +1,16 @@
+language: python
+
+install: pip install -r requirements_dev.txt
+script: tox
+after_success: coveralls
+cache:
+  directories:
+    - $HOME/.cache/pip
+deploy:
+  provider: pypi
+  user: Salamek
+  on:
+    tags: true
+  password:
+    secure: "v2qycdlhqlxT7SSNVY5y+7M83jrpAoqCRAe9ODG8atiaGXbqIFeEo69f0xytrYKJUpy1nPik8hTLH02U/eUbTRqTSyY1OzARIFUxsQURdBGqS6OpaKPElniqr75zEDI7uhRCq3TAogepTYTpNNp/Dku2eK2C8Pp6iaiXnOZj6wPWZgK9GhIKkePmFxm/kIC90Bfxrhp1a8I4+DA5WJYKo5tFEupETsmQgFIr+ZF5u1jsqmO7QTxrOmwfgKGTRTHzLIQWSXSep9SuHVwu1fr8IPttfeRgtaFGX+6cxIcAOgNeePbM0qJt4QqxFxcx+IcuklxNHHZnvsBG45MuUC1upiubuhYoPHaqW4ObI/g5nLGsgdrj/P/939BOnAudhJMDSddYVwaOTm24gGqCY/TwRvzW3esHU4u6g75HGIpo2bSvaoAAG2KE/yyO9Xr/P8lMhCPJEvgikLEry+OT503HDS0SFosGUdEKWfdv1ZzOjQYxsqlW5eC7ob37OjilJq9ODvLPLKN0BOG5xHW31tQccskcJE/sAKqxVJxYfML57QrLaWfFgDQDbrLvMEynpICWJUGfgq7O2VSQSy4kOO9ZOJLvZNv2sX52DETcLMKYZyi3juQZLhehBt8LPh51+P7Ld5N3hMuWAqNEYPiO50oPnd+lyKk8Ow4n05BIlIVzPLA="
+  distributions: "sdist bdist_wheel"

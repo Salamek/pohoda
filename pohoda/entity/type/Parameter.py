@@ -20,6 +20,6 @@ class Parameter(Agenda):
             return xml
 
         not_list_child = self._create_xml_tag(self._data['type'] + 'Value', namespace='typ')
-        not_list_child.text = html.escape(self._data['value'])
+        not_list_child.text = html.escape(str(self._data['value']))
         xml.append(not_list_child)
         return xml

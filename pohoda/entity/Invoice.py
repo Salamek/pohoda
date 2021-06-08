@@ -10,9 +10,13 @@ from pohoda.entity.type.Link import Link
 
 
 class Invoice(Agenda, AddParameterToHeaderTrait):
-    importRoot = 'lst:invoice'
+    import_root = 'lst:invoice'
 
     def __init__(self, data: dict, ico: str):
+
+        if 'invoiceType' not in data:
+            data['invoiceType'] = 'issuedInvoice'
+
         data = {'header': Header(data, ico)}
         super().__init__(data, ico)
 
