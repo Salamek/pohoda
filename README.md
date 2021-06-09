@@ -2,7 +2,8 @@
 
 This project is basically a rewrite of https://github.com/riesenia/pohoda into Python3 and i will try to match their versioning if possible
 
-[![Build Status](https://img.shields.io/travis/Salamek/pohoda/master.svg?style=flat-square)](https://travis-ci.com/Salamek/pohoda)
+![Build Status](https://github.com/Salamek/pohoda/actions/workflows/python-test.yml/badge.svg)
+
 
 ## Install
 
