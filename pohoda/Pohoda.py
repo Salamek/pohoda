@@ -15,8 +15,14 @@ class Pohoda:
     _xml_root = None
     _filename = None
 
-    def __init__(self, ico: str):
+    def __init__(self, ico: str, id_: Optional[str] = None, note: Optional[str] = None):
         self._ico = ico
+
+        # Register namespaces
+        for namespace_key, namespace_value in Agenda.namespaces.items():
+            etree.register_namespace(namespace_key, namespace_value)
+
+        self.initialize_xml_root(id_, note)
 
     def set_application_name(self, name: str) -> None:
         """
@@ -44,19 +50,13 @@ class Pohoda:
         except ImportError as e:
             raise ValueError('Entity {} not found'.format(name)) from e
 
-    def open(self, filename: str, id_: Optional[str] = None, note: Optional[str] = None) -> None:
+    def initialize_xml_root(self, id_: Optional[str] = None, note: Optional[str] = None) -> None:
         """
         Open new XML file for writing.
-        :param filename: path to output file or null for memory
         :param id_:
         :param note:
         :return:
         """
-        self._filename = filename
-        # Register namespaces
-        for namespace_key, namespace_value in Agenda.namespaces.items():
-            etree.register_namespace(namespace_key, namespace_value)
-
         self._xml_root = etree.Element(Agenda.with_xml_namespace('dat', 'dataPack'))
         self._xml_root.set('ico', self._ico)
         self._xml_root.set('application', self._application)
@@ -80,15 +80,16 @@ class Pohoda:
         data_pack_item.set('version', '2.0')
         data_pack_item.append(agenda.get_xml())
 
-    def close(self) -> int:
+    def write(self, filename: str, pretty_print: bool = True) -> None:
         """
-        End and close XML file.
-        :return: int written bytes for file or XML string for memory
+        Write xml tree to file
+        :param filename:
+        :param pretty_print:
+        :return:
         """
 
         tree = etree.ElementTree(self._xml_root)
-
-        return tree.write(self._filename, xml_declaration=True, encoding=self.encoding, method='xml', pretty_print=True)
+        tree.write(filename, xml_declaration=True, encoding=self.encoding, method='xml', pretty_print=pretty_print)
 
     def load(self, name: str, filename: str) -> None:
         raise NotImplementedError

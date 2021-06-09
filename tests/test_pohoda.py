@@ -3,13 +3,12 @@ import tempfile
 import os
 from lxml import etree
 from pohoda.Pohoda import Pohoda
-from pohoda.entity.Agenda import Agenda
 from pohoda.entity.Stock import Stock
 
 
-@pytest.fixture(scope="session")  # type: ignore
+@pytest.fixture(scope="function")  # type: ignore
 def pohoda() -> Pohoda:
-    return Pohoda('123')
+    return Pohoda('123', 'ABC')
 
 
 def test_be_constructed_with() -> None:
@@ -33,7 +32,6 @@ def test_creates_existing_objects(pohoda: Pohoda) -> None:
 
 
 def test_can_write_file(pohoda: Pohoda) -> None:
-    file = os.path.join(tempfile.gettempdir(), 'pohoda.xml')
 
     stock = Stock({
         'code': 'CODE',
@@ -42,11 +40,12 @@ def test_can_write_file(pohoda: Pohoda) -> None:
         'typePrice': {'id': 1}
     }, '123')
 
-    pohoda.open(file, 'ABC')
     pohoda.add_item('ITEM_ID', stock)
-    pohoda.close()
 
-    with open(file, 'rb') as f:
+    temp_file = os.path.join(tempfile.gettempdir(), 'pohoda.xml')
+    pohoda.write(temp_file)
+
+    with open(temp_file, 'rb') as f:
         xml_content = f.read()
         parsed_xml = etree.fromstring(xml_content)
         assert parsed_xml.get('id') == 'ABC'
@@ -58,4 +57,4 @@ def test_can_write_file(pohoda: Pohoda) -> None:
             'dat': 'http://www.stormware.cz/schema/version_2/data.xsd'
         }) == ['ITEM_ID']
 
-    os.unlink(file)
+    os.unlink(temp_file)

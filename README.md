@@ -20,10 +20,7 @@ Examples for other agenda imports in  *tests* folder.
 ```python
 from pohoda.Pohoda import Pohoda
 
-pohoda = Pohoda('ICO')
-
-# create file
-pohoda.open(filename, 'i_obj1', 'Import orders')
+pohoda = Pohoda('ICO', 'i_obj1', 'Import orders')
 
 # create order
 order = pohoda.create_order({
@@ -77,8 +74,8 @@ order.add_summary({
 # add order to import (identified by $order_number)
 pohoda.add_item(order_number, order)
 
-# close import file
-pohoda.close()
+# Write data into file
+pohoda.write(filename)
 ```
 
 ## Example of stock export
@@ -89,10 +86,8 @@ Export request is made by creating *ListRequest*
 ```python
 from pohoda.Pohoda import Pohoda
 
-pohoda = Pohoda('ICO')
+pohoda = Pohoda('ICO', 'e_zas1', 'Export stock')
 
-# create request for export
-pohoda.open(filename, 'e_zas1', 'Export stock')
 
 request = pohoda.create_list_request({
     'type': 'Stock'
@@ -103,7 +98,7 @@ request.add_user_filter_name('MyFilter')
 
 pohoda.add_item('Export 001', request)
 
-pohoda.close()
+pohoda.write(filename)
 ```
 
 
@@ -115,10 +110,8 @@ We need to create a empty agenda with *delete* actionType to delete stock.
 ```python
 from pohoda.Pohoda import Pohoda
 
-pohoda = Pohoda('ICO')
+pohoda = Pohoda('ICO', 'd_zas1', 'Delete stock')
 
-# create request for deletion
-pohoda.open(filename, 'd_zas1', 'Delete stock')
 
 stock = pohoda.create_stock([])
 
@@ -128,5 +121,5 @@ stock.add_action_type('delete', {
 
 pohoda.add_item(code, stock)
 
-pohoda.close()
+pohoda.write(filename)
 ```
