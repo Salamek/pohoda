@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pohoda',
-    version='1.0.3',
+    version='1.0.4',
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data={'pohoda': ['py.typed']},
     install_requires=[
