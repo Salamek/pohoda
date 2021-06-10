@@ -7,6 +7,7 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data={'pohoda': ['py.typed']},
     install_requires=[
+        'lxml'
     ],
     url='https://github.com/Salamek/pohoda',
     license='LGPL-3.0 ',
