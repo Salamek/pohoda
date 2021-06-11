@@ -8,14 +8,15 @@ from pohoda.entity.Agenda import Agenda
 
 
 class Pohoda:
-    encoding = 'windows-1250'
+    _encoding = 'windows-1250'
     _ico = None
     _application = 'Python Pohoda connector'
 
     _xml_root = None
     _filename = None
 
-    def __init__(self, ico: str, id_: Optional[str] = None, note: Optional[str] = None):
+    def __init__(self, ico: str, id_: str, note: Optional[str] = None, encoding: str = 'windows-1250'):
+        self._encoding = encoding
         self._ico = ico
 
         # Register namespaces
@@ -50,13 +51,17 @@ class Pohoda:
         except ImportError as e:
             raise ValueError('Entity {} not found'.format(name)) from e
 
-    def initialize_xml_root(self, id_: Optional[str] = None, note: Optional[str] = None) -> None:
+    def initialize_xml_root(self, id_: str, note: Optional[str] = None) -> None:
         """
         Open new XML file for writing.
         :param id_:
         :param note:
         :return:
         """
+
+        if not note:
+            note = ''
+
         self._xml_root = etree.Element(Agenda.with_xml_namespace('dat', 'dataPack'))
         self._xml_root.set('ico', self._ico)
         self._xml_root.set('application', self._application)
@@ -89,7 +94,7 @@ class Pohoda:
         """
 
         tree = etree.ElementTree(self._xml_root)
-        tree.write(filename, xml_declaration=True, encoding=self.encoding, method='xml', pretty_print=pretty_print)
+        tree.write(filename, xml_declaration=True, encoding=self._encoding, method='xml', pretty_print=pretty_print)
 
     def load(self, name: str, filename: str) -> None:
         raise NotImplementedError

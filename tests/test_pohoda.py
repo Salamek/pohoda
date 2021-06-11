@@ -12,7 +12,7 @@ def pohoda() -> Pohoda:
 
 
 def test_be_constructed_with() -> None:
-    Pohoda('123')
+    Pohoda('123', 'ABC')
 
 
 def test_throws_exception_on_wrong_agenda_name(pohoda: Pohoda) -> None:
