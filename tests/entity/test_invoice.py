@@ -215,7 +215,14 @@ def test_can_set_summary(invoice: Invoice) -> None:
   </inv:invoiceHeader>
   <inv:invoiceSummary>
     <inv:roundingDocument>math2one</inv:roundingDocument>
-    <inv:foreignCurrency/>
+    <inv:foreignCurrency>
+      <typ:currency xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">
+        <typ:ids>EUR</typ:ids>
+      </typ:currency>
+      <typ:rate xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">20.232</typ:rate>
+      <typ:amount xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">1</typ:amount>
+      <typ:priceSum xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">580</typ:priceSum>
+    </inv:foreignCurrency>
   </inv:invoiceSummary>
 </inv:invoice>
 """
