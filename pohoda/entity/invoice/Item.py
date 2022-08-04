@@ -4,6 +4,7 @@ from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.type.CurrencyItem import CurrencyItem
 from pohoda.entity.type.StockItem import StockItem
+from pohoda.entity.type.RecyclingContrib import RecyclingContrib
 
 
 class Item(Agenda, AddParameterTrait):
@@ -11,7 +12,7 @@ class Item(Agenda, AddParameterTrait):
     _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage',
                  'homeCurrency', 'foreignCurrency', 'note', 'code', 'guarantee', 'guaranteeType', 'stockItem',
                  'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract',
-                 'expirationDate']
+                 'expirationDate', 'recyclingContrib']
 
     def __init__(self, data: dict, ico: str):
 
@@ -29,6 +30,11 @@ class Item(Agenda, AddParameterTrait):
         stock_item = data.get('stockItem')
         if stock_item:
             data['stockItem'] = StockItem(stock_item, ico)
+
+        # process recycling contribution
+        recycling_contrib = data.get('recyclingContrib')
+        if recycling_contrib:
+            data['recyclingContrib'] = RecyclingContrib(recycling_contrib, ico)
 
         super().__init__(data, ico)
 
