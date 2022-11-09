@@ -7,7 +7,7 @@ from pohoda.entity.type.MyAddress import MyAddress
 
 
 class Header(Agenda, AddParameterTrait):
-    _ref_elements = ['number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'order', 'paymentType',
+    _ref_elements = ['extId', 'number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'order', 'paymentType',
                      'priceLevel', 'account', 'paymentAccount', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS',
                      'evidentiaryResourcesMOSS', 'carrier']
     _elements = ['extId', 'invoiceType', 'number', 'symVar', 'originalDocument', 'originalDocumentNumber', 'symPar',
