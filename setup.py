@@ -10,6 +10,9 @@ setup(
         'lxml',
         'pyhumps'
     ],
+    tests_require=[
+        'tox'
+    ],
     url='https://github.com/Salamek/pohoda',
     license='LGPL-3.0 ',
     author='Adam Schubert',
