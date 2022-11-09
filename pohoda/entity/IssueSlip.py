@@ -5,6 +5,7 @@ from pohoda.entity.common.AddParameterToHeaderTrait import AddParameterToHeaderT
 from pohoda.entity.issue_slip.Header import Header
 from pohoda.entity.issue_slip.Item import Item
 from pohoda.entity.issue_slip.Summary import Summary
+from pohoda.entity.type.Link import Link
 
 
 class IssueSlip(Agenda, AddParameterToHeaderTrait):
@@ -37,8 +38,14 @@ class IssueSlip(Agenda, AddParameterToHeaderTrait):
         self._data['summary'] = Summary(data, self._ico)
         return self
 
+    def add_link(self, data: dict) -> 'IssueSlip':
+        links = self._data.get('links', [])
+        links.append(Link(data, self._ico))
+        self._data['links'] = links
+        return self
+
     def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('vydejka', namespace='vyd')
         xml.set('version', '2.0')
-        self._add_elements(xml, ['header', 'vydejkaDetail', 'summary'], 'vyd')
+        self._add_elements(xml, ['links', 'header', 'vydejkaDetail', 'summary'], 'vyd')
         return xml
