@@ -1,6 +1,6 @@
 import html
 import datetime
-from typing import Dict, List, Union, Any, Optional
+from typing import Dict, List, Union, Any, Optional, Tuple
 from lxml import etree
 from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
 from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
@@ -34,7 +34,7 @@ class Agenda:
 
     _ref_elements = []  # type: List[str]
 
-    _elements_attributes_mapper = {}  # type: Dict[str, List[str]]
+    _elements_attributes_mapper = {}  # type: Dict[str, Tuple[str, str, Optional[str]]]
 
     def __init__(self, data: dict, ico: str):
         """
@@ -62,6 +62,23 @@ class Agenda:
         return etree.Element(self.with_xml_namespace(namespace, tag)) if namespace else etree.Element(tag)
 
     @staticmethod
+    def _element_data_to_xml(element_data: Any) -> str:
+        # Object is datetime (extends date)
+        if isinstance(element_data, datetime.datetime):
+            return html.escape(element_data.strftime('%Y-%m-%dT%H:%M:%S'))
+        # Object is date
+        if isinstance(element_data, datetime.date):
+            return html.escape(element_data.strftime('%Y-%m-%d'))
+        # Object is time
+        if isinstance(element_data, datetime.time):
+            return html.escape(element_data.strftime('%H:%M:%S'))
+
+        if isinstance(element_data, bool):
+            return 'true' if element_data else 'false'
+
+        return html.escape(str(element_data))
+
+    @staticmethod
     def with_xml_namespace(namespace_key: str, tag_name: str) -> str:
         found_namespace = Agenda.namespaces.get(namespace_key)
         if not found_namespace:
@@ -78,7 +95,7 @@ class Agenda:
         """
         for element in elements:
             found_element_in_data = self._data.get(element)
-            if not found_element_in_data:
+            if found_element_in_data is None:
                 continue
 
             # is ref element
@@ -91,12 +108,12 @@ class Agenda:
                 attr_element, attr_name, attr_namespace = found_element_attributes_mapper
 
                 # get element
-                attr_element_found = xml.findall(
-                    self.with_xml_namespace(namespace, attr_element) if namespace else attr_element)
-                if attr_element_found:
-                    attr_element_found.set(
-                        self.with_xml_namespace(attr_namespace, attr_name) if attr_namespace else attr_name,
-                        html.escape(found_element_in_data))
+                element_name = self.with_xml_namespace(namespace, attr_element) if namespace else attr_element
+                attr_element_found = xml.find(element_name)
+
+                if attr_element_found is not None:
+                    attr_element_name = self.with_xml_namespace(attr_namespace, attr_name) if attr_namespace else attr_name
+                    attr_element_found.set(attr_element_name, self._element_data_to_xml(found_element_in_data))
 
                 continue
 
@@ -120,17 +137,9 @@ class Agenda:
             if isinstance(found_element_in_data, list):
                 for node in found_element_in_data:
                     child.append(node.get_xml())
-            # Object is datetime (extends date)
-            elif isinstance(found_element_in_data, datetime.datetime):
-                child.text = html.escape(found_element_in_data.strftime('%Y-%m-%dT%H:%M:%S'))
-            # Object is date
-            elif isinstance(found_element_in_data, datetime.date):
-                child.text = html.escape(found_element_in_data.strftime('%Y-%m-%d'))
-            # Object is time
-            elif isinstance(found_element_in_data, datetime.time):
-                child.text = html.escape(found_element_in_data.strftime('%H:%M:%S'))
             else:
-                child.text = html.escape(str(found_element_in_data))
+                # Anything else
+                child.text = self._element_data_to_xml(found_element_in_data)
             xml.append(child)
 
     def _add_ref_element(self,

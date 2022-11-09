@@ -11,7 +11,7 @@ class Address(Agenda, SetNamespaceTrait, SetNodeNameTrait):
     _ref_elements = ['extId']
     _elements = ['id', 'extId', 'address', 'addressLinkToAddress', 'shipToAddress']
 
-    _elements_attributes_mapper = {'addressLinkToAddress': ['address', 'linkToAddress']}
+    _elements_attributes_mapper = {'addressLinkToAddress': ('address', 'linkToAddress', None)}
 
     def __init__(self, data: dict, ico: str):
         address = data.get('address')
