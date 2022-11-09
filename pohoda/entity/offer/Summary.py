@@ -22,6 +22,6 @@ class Summary(Agenda):
         super().__init__(data, ico)
 
     def get_xml(self) -> etree.Element:
-        xml = self._create_xml_tag('orderSummary', namespace='ofr')
-        self._add_elements(xml, self._elements, 'ofr')
+        xml = self._create_xml_tag('offerSummary', namespace='ord')
+        self._add_elements(xml, self._elements, 'ord')
         return xml

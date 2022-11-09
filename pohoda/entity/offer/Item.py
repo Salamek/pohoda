@@ -8,9 +8,9 @@ from pohoda.entity.type.StockItem import StockItem
 
 class Item(Agenda, AddParameterTrait):
     _ref_elements = ['typeServiceMOSS', 'centre', 'activity', 'contract']
-    _elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT',
-                 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'code', 'stockItem', 'centre',
-                 'activity', 'contract']
+    _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT',
+                 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS',
+                 'note', 'code', 'stockItem', 'centre', 'activity', 'contract']
 
     def __init__(self, data: dict, ico: str):
         # process home currency
@@ -31,6 +31,6 @@ class Item(Agenda, AddParameterTrait):
         super().__init__(data, ico)
 
     def get_xml(self) -> etree.Element:
-        xml = self._create_xml_tag('orderItem', namespace='ofr')
-        self._add_elements(xml, self._elements + ['parameters'], 'ofr')
+        xml = self._create_xml_tag('offerItem', namespace='ord')
+        self._add_elements(xml, self._elements + ['parameters'], 'ord')
         return xml

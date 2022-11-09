@@ -27,7 +27,8 @@ class Agenda:
         'str': 'http://www.stormware.cz/schema/version_2/storage.xsd',
         'stk': 'http://www.stormware.cz/schema/version_2/stock.xsd',
         'typ': 'http://www.stormware.cz/schema/version_2/type.xsd',
-        'vyd': 'http://www.stormware.cz/schema/version_2/vydejka.xsd'
+        'vyd': 'http://www.stormware.cz/schema/version_2/vydejka.xsd',
+        'ofr': 'http://www.stormware.cz/schema/version_2/offer.xsd'
     }
 
     _data = {}  # type: Dict[str, Any]
