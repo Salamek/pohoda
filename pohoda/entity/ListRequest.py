@@ -7,6 +7,34 @@ from pohoda.entity.list_request.UserFilterName import UserFilterName
 
 class ListRequest(Agenda):
 
+    def __init__(self, data: dict, ico: str):
+
+        if 'type' not in data:
+            raise ValueError('"type" argument is required')
+
+        data['type'] = {
+            'Addressbook': 'AddressBook',
+            'IssueSlip': 'Vydejka'
+        }.get(data['type'], data['type'])
+
+        if 'namespace' not in data:
+            data['namespace'] = {
+                'Stock': 'lStk',
+                'AddressBook': 'lAdb'
+            }.get(data['type'], 'lst')
+
+        if 'orderType' not in data:
+            data['orderType'] = {
+                'Order': 'receivedOrder'
+            }.get(data['type'])
+
+        if 'invoiceType' not in data:
+            data['invoiceType'] = {
+                'Invoice': 'issuedInvoice'
+            }.get(data['type'])
+
+        super().__init__(data, ico)
+
     def add_filter(self, data: dict) -> 'ListRequest':
         """
         Add filter.

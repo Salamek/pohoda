@@ -4,6 +4,7 @@ This project is basically a rewrite of https://github.com/riesenia/pohoda into P
 
 [![Python package](https://github.com/Salamek/pohoda/actions/workflows/python-test.yml/badge.svg)](https://github.com/Salamek/pohoda/actions/workflows/python-test.yml)
 
+> Please consider sponsoring if you're using this package commercially, my time is not free :) You can sponsor me by clicking on "Sponsor" button in top button row. Thank You./Prosím pouvažujte nad sponzorováním tohoto projektu pokud používáte tento projekt komerčně, můj čas není zadarmo :) Sponzorovat můžete kliknutím na tlačítko "Sponsor" v horní řadě tlačítkek. Děkuji.
 
 ## Install
 
