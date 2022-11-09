@@ -18,6 +18,7 @@ class ActionType(Agenda, SetNamespaceTrait):
             action.set('update', 'true')
 
         if self._data['filter']:
+
             filter_ = self._create_xml_tag('filter', namespace='ftr')
             action.append(filter_)
             if self._data['agenda']:
@@ -25,6 +26,7 @@ class ActionType(Agenda, SetNamespaceTrait):
 
             for property_, value_ in self._data['filter'].items():
                 ftr = self._create_xml_tag(property_, namespace='ftr')
+                filter_.append(ftr)
                 ftr.text = None if isinstance(value_, dict) else value_
                 if isinstance(value_, dict):
                     for t_property, t_value in value_.items():
