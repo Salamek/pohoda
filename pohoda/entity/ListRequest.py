@@ -56,6 +56,16 @@ class ListRequest(Agenda):
         return self
 
     def get_xml(self) -> etree.Element:
+        # UserList is custom
+        if self._data['type'] == 'UserList':
+            # Custom export for UserList
+            xml = self._create_xml_tag(
+                'listUserCodeRequest',
+                namespace=self._data['namespace']
+            )
+            xml.set('version', '1.1')
+            xml.set('listVersion', '1.1')
+            return xml
 
         xml = self._create_xml_tag(
             'list{}Request'.format(self._data['type']),

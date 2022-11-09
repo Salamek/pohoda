@@ -128,6 +128,17 @@ def test_creates_correct_xml_for_int_params() -> None:
     assert result == expected_xml
 
 
+def test_creates_correct_xml_for_user_lists() -> None:
+    expected_xml = b"""<lst:listUserCodeRequest xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd" version="1.1" listVersion="1.1"/>
+"""
+    list_request = ListRequest({
+        'type': 'UserList'
+    }, '123')
+
+    result = bytes(etree.tostring(list_request.get_xml(), pretty_print=True))
+    assert result == expected_xml
+
+
 def test_creates_correct_xml_for_invoice_with_user_filter_name() -> None:
     expected_xml = b"""<lst:listInvoiceRequest xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd" version="2.0" invoiceVersion="2.0" invoiceType="issuedInvoice">
   <lst:requestInvoice>
