@@ -13,7 +13,7 @@ class Item(Agenda, AddParameterTrait):
     _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage',
                  'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'guarantee', 'guaranteeType', 'stockItem',
                  'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract',
-                 'expirationDate', 'recyclingContrib']
+                 'expirationDate', 'PDP', 'recyclingContrib']
 
     def __init__(self, data: dict, ico: str):
 
