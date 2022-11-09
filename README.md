@@ -115,7 +115,7 @@ from pohoda.Pohoda import Pohoda
 pohoda = Pohoda('ICO', 'd_zas1', 'Delete stock')
 
 
-stock = pohoda.create_stock([])
+stock = pohoda.create_stock({})
 
 stock.add_action_type('delete', {
     'code': code
