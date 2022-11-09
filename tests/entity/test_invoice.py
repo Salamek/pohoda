@@ -1,4 +1,5 @@
 import pytest
+import datetime
 from lxml import etree
 
 from pohoda.entity.Agenda import Agenda
@@ -17,7 +18,7 @@ def invoice() -> Invoice:
                 'ico': '123'
             }
         },
-        'date': '2015-01-10',
+        'date': datetime.date(year=2015, month=1, day=10),
         'intNote': 'Note'
     }, '123')
 
@@ -33,7 +34,7 @@ def test_be_constructed_with() -> None:
                 'ico': '123'
             }
         },
-        'date': '2015-01-10',
+        'date': datetime.date(year=2015, month=1, day=10),
         'intNote': 'Note'
     }, '123')
 
