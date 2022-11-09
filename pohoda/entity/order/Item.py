@@ -10,7 +10,7 @@ class Item(Agenda, AddParameterTrait):
     _ref_elements = ['typeServiceMOSS', 'centre', 'activity', 'contract']
     _elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT',
                  'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'code', 'stockItem', 'centre',
-                 'activity', 'contract']
+                 'activity', 'contract', 'PDP']
 
     def __init__(self, data: dict, ico: str):
         # process home currency
