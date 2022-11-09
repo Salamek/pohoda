@@ -8,14 +8,14 @@ from pohoda.entity.type.MyAddress import MyAddress
 
 class Header(Agenda, AddParameterTrait):
     _ref_elements = ['number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'order', 'paymentType',
-                     'priceLevel', 'account', 'paymentAccount', 'centre', 'activity', 'contract', 'regVATinEU',
-                     'carrier']
+                     'priceLevel', 'account', 'paymentAccount', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS',
+                     'evidentiaryResourcesMOSS', 'carrier']
     _elements = ['extId', 'invoiceType', 'number', 'symVar', 'originalDocument', 'originalDocumentNumber', 'symPar',
                  'date', 'dateTax', 'dateAccounting', 'dateKHDPH', 'dateDue', 'dateApplicationVAT', 'dateDelivery',
                  'accounting', 'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity',
                  'myIdentity', 'order', 'numberOrder', 'dateOrder', 'paymentType', 'priceLevel', 'account', 'symConst',
-                 'symSpec', 'paymentAccount', 'paymentTerminal', 'centre', 'activity', 'contract', 'regVATinEU', 'note',
-                 'carrier', 'intNote']
+                 'symSpec', 'paymentAccount', 'paymentTerminal', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS',
+                 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'carrier', 'intNote']
 
     def __init__(self, data: dict, ico: str):
         partner_identity = data.get('partnerIdentity')

@@ -7,7 +7,7 @@ from pohoda.entity.type.StockItem import StockItem
 
 
 class Item(Agenda, AddParameterTrait):
-    _ref_elements = ['centre', 'activity', 'contract']
+    _ref_elements = ['typeServiceMOSS', 'centre', 'activity', 'contract']
     _elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT',
                  'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'code', 'stockItem', 'centre',
                  'activity', 'contract']

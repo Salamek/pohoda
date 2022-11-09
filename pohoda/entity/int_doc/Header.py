@@ -8,11 +8,12 @@ from pohoda.entity.type.MyAddress import MyAddress
 
 class Header(Agenda, AddParameterTrait):
     _ref_elements = ['number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity',
-                     'contract', 'regVATinEU']
+                     'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS']
     _elements = ['number', 'symVar', 'symPar', 'originalDocumentNumber', 'originalCorrectiveDocument', 'date',
                  'dateTax', 'dateAccounting', 'dateDelivery', 'dateKVDPH', 'dateKHDPH', 'accounting',
                  'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity', 'myIdentity',
-                 'liquidation', 'centre', 'activity', 'contract', 'regVATinEU', 'note', 'intNote', 'markRecord']
+                 'liquidation', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS',
+                 'accountingPeriodMOSS', 'note', 'intNote', 'markRecord']
 
     def __init__(self, data: dict, ico: str):
         # process partner identity

@@ -7,10 +7,12 @@ from pohoda.entity.type.MyAddress import MyAddress
 
 
 class Header(Agenda, AddParameterTrait):
-    _ref_elements = ['number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'carrier']
+    _ref_elements = ['number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS',
+                     'evidentiaryResourcesMOSS', 'carrier']
     _elements = ['orderType', 'number', 'numberOrder', 'date', 'dateDelivery', 'dateFrom', 'dateTo', 'text',
                  'partnerIdentity', 'myIdentity', 'paymentType', 'priceLevel', 'isExecuted', 'isReserved', 'centre',
-                 'activity', 'contract', 'regVATinEU', 'note', 'carrier', 'intNote', 'markRecord']
+                 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS',
+                 'note', 'carrier', 'intNote', 'markRecord']
 
     def __init__(self, data: dict, ico: str):
         # process partner identity

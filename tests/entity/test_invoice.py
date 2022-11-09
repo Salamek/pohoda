@@ -173,10 +173,12 @@ def test_can_add_advance_payment_item(invoice: Invoice) -> None:
         <typ:number xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">150800001</typ:number>
       </inv:sourceDocument>
       <inv:quantity>1</inv:quantity>
+      <inv:payVAT>false</inv:payVAT>
       <inv:rateVAT>none</inv:rateVAT>
       <inv:homeCurrency>
         <typ:unitPrice xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">-3000</typ:unitPrice>
         <typ:price xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">-3000</typ:price>
+        <typ:priceVAT xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">0</typ:priceVAT>
         <typ:priceSum xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">-3000</typ:priceSum>
       </inv:homeCurrency>
     </inv:invoiceAdvancePaymentItem>

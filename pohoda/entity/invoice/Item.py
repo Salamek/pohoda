@@ -8,9 +8,10 @@ from pohoda.entity.type.RecyclingContrib import RecyclingContrib
 
 
 class Item(Agenda, AddParameterTrait):
-    _ref_elements = ['accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract']
+    _ref_elements = ['typeServiceMOSS', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity',
+                     'contract']
     _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage',
-                 'homeCurrency', 'foreignCurrency', 'note', 'code', 'guarantee', 'guaranteeType', 'stockItem',
+                 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'guarantee', 'guaranteeType', 'stockItem',
                  'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract',
                  'expirationDate', 'recyclingContrib']
 

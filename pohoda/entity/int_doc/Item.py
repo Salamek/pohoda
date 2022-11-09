@@ -7,11 +7,12 @@ from pohoda.entity.type.StockItem import StockItem
 
 
 class Item(Agenda):
-    _ref_elements = ['accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract']
+    _ref_elements = ['typeServiceMOSS', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity',
+                     'contract']
 
     _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage',
-                 'homeCurrency', 'foreignCurrency', 'note', 'code', 'symPar', 'accounting', 'classificationVAT',
-                 'classificationKVDPH', 'PDP', 'CodePDP', 'centre', 'activity', 'contract']
+                 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'symPar', 'accounting',
+                 'classificationVAT', 'classificationKVDPH', 'PDP', 'CodePDP', 'centre', 'activity', 'contract']
 
     def __init__(self, data: dict, ico: str):
         # process home currency

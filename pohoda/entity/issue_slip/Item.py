@@ -8,9 +8,9 @@ from pohoda.entity.type.StockItem import StockItem
 
 
 class Item(Agenda, AddParameterTrait):
-    _ref_elements = ['centre', 'activity', 'contract']
+    _ref_elements = ['typeServiceMOSS', 'centre', 'activity', 'contract']
     _elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency',
-                 'foreignCurrency', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract']
+                 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract']
 
     def __init__(self, data: dict, ico: str):
         # process home currency
