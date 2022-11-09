@@ -10,7 +10,7 @@ class Header(Agenda, AddParameterTrait):
 
     _elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit',
                  'priceIDS', 'maturity', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'p1', 'p2', 'p3', 'p4',
-                 'p5', 'p6', 'markRecord', 'message', 'note', 'intNote', 'centre', 'activity', 'contract']
+                 'p5', 'p6', 'markRecord', 'message', 'note', 'intNote', 'centre', 'activity', 'contract', 'adGroup']
 
     def __init__(self, data: dict, ico: str):
         identity = data.get('identity')
