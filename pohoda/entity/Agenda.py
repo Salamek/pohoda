@@ -1,4 +1,5 @@
 import html
+import datetime
 from typing import Dict, List, Union, Any, Optional
 from lxml import etree
 from pohoda.entity.common.SetNamespaceTrait import SetNamespaceTrait
@@ -113,18 +114,23 @@ class Agenda:
                 xml.append(found_element_in_data.get_xml())
                 continue
 
-            # list of Agenda objects
-            if isinstance(found_element_in_data, list):
-                child = etree.Element(self.with_xml_namespace(namespace, element) if namespace else element)
-                for node in found_element_in_data:
-                    child.append(node.get_xml())
-                xml.append(child)
-                continue
-
             child = etree.Element(self.with_xml_namespace(namespace, element) if namespace else element)
 
-            # !FIXME resolve datetime better then just cast to str
-            child.text = html.escape(str(found_element_in_data))
+            # list of Agenda objects
+            if isinstance(found_element_in_data, list):
+                for node in found_element_in_data:
+                    child.append(node.get_xml())
+            # Object is datetime (extends date)
+            elif isinstance(found_element_in_data, datetime.datetime):
+                child.text = html.escape(found_element_in_data.strftime('%Y-%m-%dT%H:%M:%S'))
+            # Object is date
+            elif isinstance(found_element_in_data, datetime.date):
+                child.text = html.escape(found_element_in_data.strftime('%Y-%m-%d'))
+            # Object is time
+            elif isinstance(found_element_in_data, datetime.time):
+                child.text = html.escape(found_element_in_data.strftime('%H:%M:%S'))
+            else:
+                child.text = html.escape(str(found_element_in_data))
             xml.append(child)
 
     def _add_ref_element(self,
