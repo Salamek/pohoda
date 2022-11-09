@@ -8,7 +8,13 @@ from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
 
 class StockItem(Agenda, SetNamespaceTrait, SetNodeNameTrait):
     _ref_elements = ['store', 'stockItem']
-    _elements = ['store', 'stockItem', 'serialNumber']
+
+    _elements_attributes_mapper = {
+        'insertAttachStock': ('stockItem', 'insertAttachStock', None),
+        'applyUserSettingsFilterOnTheStore': ('stockItem', 'applyUserSettingsFilterOnTheStore', None)
+    }
+
+    _elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber']
 
     def get_xml(self) -> etree.Element:
 
