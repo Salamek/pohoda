@@ -6,6 +6,8 @@ from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.stock.Category import Category
 from pohoda.entity.stock.IntParameter import IntParameter
 from pohoda.entity.stock.Picture import Picture
+from pohoda.entity.stock.Intrastat import Intrastat
+from pohoda.entity.stock.RecyclingContrib import RecyclingContrib
 
 
 class Header(Agenda, AddParameterTrait):
@@ -19,12 +21,19 @@ class Header(Agenda, AddParameterTrait):
                  'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT',
                  'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier',
                  'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer',
-                 'description', 'description2', 'note']
+                 'description', 'description2', 'note', 'intrastat', 'recyclingContrib']
     _images_counter = 0
 
     def __init__(self, data: dict, ico: str):
         if 'stockType' not in data:
             data['stockType'] = 'card'
+
+        if 'intrastat' in data:
+            data['intrastat'] = Intrastat(data['intrastat'], ico)
+
+        if 'recyclingContrib' in data:
+            data['recyclingContrib'] = RecyclingContrib(data['recyclingContrib'], ico)
+
         super().__init__(data, ico)
 
     def add_image(self,
