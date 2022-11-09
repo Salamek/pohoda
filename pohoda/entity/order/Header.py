@@ -4,11 +4,12 @@ from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.type.Address import Address
 from pohoda.entity.type.MyAddress import MyAddress
+from pohoda.entity.type.ExtId import ExtId
 
 
 class Header(Agenda, AddParameterTrait):
-    _ref_elements = ['number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS',
-                     'evidentiaryResourcesMOSS', 'carrier']
+    _ref_elements = ['extId', 'number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU',
+                     'MOSS', 'evidentiaryResourcesMOSS', 'carrier']
     _elements = ['orderType', 'number', 'numberOrder', 'date', 'dateDelivery', 'dateFrom', 'dateTo', 'text',
                  'partnerIdentity', 'myIdentity', 'paymentType', 'priceLevel', 'isExecuted', 'isReserved', 'centre',
                  'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS',
