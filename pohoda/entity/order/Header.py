@@ -4,7 +4,6 @@ from pohoda.entity.Agenda import Agenda
 from pohoda.entity.common.AddParameterTrait import AddParameterTrait
 from pohoda.entity.type.Address import Address
 from pohoda.entity.type.MyAddress import MyAddress
-from pohoda.entity.type.ExtId import ExtId
 
 
 class Header(Agenda, AddParameterTrait):
