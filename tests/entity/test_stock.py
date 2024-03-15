@@ -129,6 +129,62 @@ def test_can_set_action_type(stock: Stock) -> None:
     assert result == expected_xml
 
 
+def test_can_add_stock_items(stock: Stock) -> None:
+    stock.add_stock_item({
+            'storage': {
+                'ids': 'MATERIAL'
+            },
+            'code': 'B03',
+            'name': 'Spojovacia doska',
+            'count': 88,
+            'quantity': 1,
+            'stockPriceItem': [
+                {
+                    'stockPrice': {
+                        'ids': 'Cena 1',
+                        'price': 294
+                    }
+                },
+                {
+                    'stockPrice': {
+                        'ids': 'MOC', 'price': 393.3
+                    }
+                }
+            ]
+    })
+
+    expected_xml = b"""<stk:stock xmlns:stk="http://www.stormware.cz/schema/version_2/stock.xsd" version="2.0">
+  <stk:stockHeader>
+    """ + default_header + b"""
+  </stk:stockHeader>
+  <stk:stockDetail>
+    <stk:stockItem>
+      <stk:storage>
+        <typ:ids xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">MATERIAL</typ:ids>
+      </stk:storage>
+      <stk:code>B03</stk:code>
+      <stk:name>Spojovacia doska</stk:name>
+      <stk:count>88</stk:count>
+      <stk:quantity>1</stk:quantity>
+      <stk:stockPriceItem>
+        <stk:stockPrice>
+          <typ:ids xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">Cena 1</typ:ids>
+          <typ:price xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">294</typ:price>
+        </stk:stockPrice>
+        <stk:stockPrice>
+          <typ:ids xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">MOC</typ:ids>
+          <typ:price xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd">393.3</typ:price>
+        </stk:stockPrice>
+      </stk:stockPriceItem>
+    </stk:stockItem>
+  </stk:stockDetail>
+</stk:stock>
+"""
+
+    result = bytes(etree.tostring(stock.get_xml(), pretty_print=True))
+    assert result == expected_xml
+
+
 def test_can_set_prices(stock: Stock) -> None:
     stock.add_price('Price1', 20.43)
     stock.add_price('Price2', 19)

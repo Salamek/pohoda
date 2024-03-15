@@ -6,6 +6,7 @@ from pohoda.entity.common.AddActionTypeTrait import AddActionTypeTrait
 from pohoda.entity.common.AddParameterToHeaderTrait import AddParameterToHeaderTrait
 from pohoda.entity.stock.Header import Header
 from pohoda.entity.stock.Price import Price
+from pohoda.entity.stock.StockItem import StockItem
 
 
 class Stock(Agenda, AddActionTypeTrait, AddParameterToHeaderTrait):
@@ -16,6 +17,18 @@ class Stock(Agenda, AddActionTypeTrait, AddParameterToHeaderTrait):
             data = {'header': Header(data, ico)}
         # end if
         super().__init__(data, ico)
+
+    def add_stock_item(self, data: dict) -> 'Stock':
+        """
+
+        :param data:
+        :return:
+        """
+        if not self._data.get('stockDetail'):
+            self._data['stockDetail'] = []
+
+        self._data['stockDetail'].append(StockItem(data, self._ico))
+        return self
 
     def add_price(self, code: str, value: float) -> 'Stock':
         """
@@ -28,7 +41,7 @@ class Stock(Agenda, AddActionTypeTrait, AddParameterToHeaderTrait):
         if not self._data.get('stockPriceItem'):
             self._data['stockPriceItem'] = []
 
-        self._data['stockPriceItem'].append(Price({'code': code, 'value': value}, self._ico))
+        self._data['stockPriceItem'].append(Price({'ids': code, 'price': value}, self._ico))
         return self
 
     def add_image(self,
@@ -71,5 +84,5 @@ class Stock(Agenda, AddActionTypeTrait, AddParameterToHeaderTrait):
     def get_xml(self) -> etree.Element:
         xml = self._create_xml_tag('stock', namespace='stk')
         xml.set('version', '2.0')
-        self._add_elements(xml, ['actionType', 'header', 'stockPriceItem'], 'stk')
+        self._add_elements(xml, ['actionType',  'header', 'stockDetail', 'stockPriceItem'], 'stk')
         return xml
