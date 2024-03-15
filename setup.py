@@ -7,7 +7,7 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data={'pohoda': ['py.typed']},
     install_requires=[
-        'lxml',
+        'lxml~=4.9.2',
         'pyhumps'
     ],
     tests_require=[
