@@ -11,7 +11,7 @@ from pohoda.entity.stock.RecyclingContrib import RecyclingContrib
 
 
 class Header(Agenda, AddParameterTrait):
-    _ref_elements = ['storage', 'typePrice', 'typeRP', 'supplier']
+    _ref_elements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS']
     _elements_attributes_mapper = {
         'purchasingPricePayVAT': ('purchasingPrice', 'payVAT', None),
         'sellingPricePayVAT': ('sellingPrice', 'payVAT', None)
@@ -20,7 +20,7 @@ class Header(Agenda, AddParameterTrait):
                  'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3',
                  'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT',
                  'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier',
-                 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer',
+                 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS',
                  'description', 'description2', 'note', 'intrastat', 'recyclingContrib']
     _images_counter = 0
 
