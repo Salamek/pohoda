@@ -26,6 +26,7 @@ class Agenda:
         'pro': 'http://www.stormware.cz/schema/version_2/prodejka.xsd',
         'str': 'http://www.stormware.cz/schema/version_2/storage.xsd',
         'stk': 'http://www.stormware.cz/schema/version_2/stock.xsd',
+        'sup': 'http://www.stormware.cz/schema/version_2/supplier.xsd',
         'typ': 'http://www.stormware.cz/schema/version_2/type.xsd',
         'vyd': 'http://www.stormware.cz/schema/version_2/vydejka.xsd',
         'ofr': 'http://www.stormware.cz/schema/version_2/offer.xsd'
@@ -59,8 +60,13 @@ class Agenda:
         Create XML.
         :return:
         """
+        if namespace:
+            found_namespace = self.namespaces.get(namespace)
+            return etree.Element(self.with_xml_namespace(namespace, tag), nsmap={
+                namespace: found_namespace
+            })
 
-        return etree.Element(self.with_xml_namespace(namespace, tag)) if namespace else etree.Element(tag)
+        return etree.Element(tag)
 
     @staticmethod
     def _element_data_to_xml(element_data: Any) -> str:
@@ -132,7 +138,9 @@ class Agenda:
                 xml.append(found_element_in_data.get_xml())
                 continue
 
-            child = etree.Element(self.with_xml_namespace(namespace, element) if namespace else element)
+            child = self._create_xml_tag(element, namespace)
+
+            #child = etree.Element(self.with_xml_namespace(namespace, element) if namespace else element)
 
             # list of Agenda objects
             if isinstance(found_element_in_data, list):
@@ -157,14 +165,15 @@ class Agenda:
         :param namespace:
         :return:
         """
-
-        node = etree.Element(self.with_xml_namespace(namespace, name) if namespace else name)
+        node = self._create_xml_tag(name, namespace)
+        #node = etree.Element(self.with_xml_namespace(namespace, name) if namespace else name)
 
         if not isinstance(value, dict):
             value = {'ids': value}
 
         for k, v in value.items():
-            node_child = etree.Element(self.with_xml_namespace('typ', k))
+            node_child = self._create_xml_tag(k, 'typ')
+            #node_child = etree.Element(self.with_xml_namespace('typ', k))
             node_child.text = html.escape(str(v))
             node.append(node_child)
 
