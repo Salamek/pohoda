@@ -9,6 +9,7 @@ from pohoda.entity.common.SetNodeNameTrait import SetNodeNameTrait
 class Agenda:
     namespaces = {
         'adb': 'http://www.stormware.cz/schema/version_2/addressbook.xsd',
+        'bnk': 'http://www.stormware.cz/schema/version_2/bank.xsd',
         'con': 'http://www.stormware.cz/schema/version_2/contract.xsd',
         'ctg': 'http://www.stormware.cz/schema/version_2/category.xsd',
         'dat': 'http://www.stormware.cz/schema/version_2/data.xsd',
