@@ -53,7 +53,7 @@ class Document(Agenda, AddParameterToHeaderTrait):
         return self
 
     def add_summary(self, data: dict) -> 'Document':
-        self._data['summary'].append(self._get_document_part('Summary', data, self._ico))
+        self._data['summary'] = self._get_document_part('Summary', data, self._ico)
 
         return self
 
